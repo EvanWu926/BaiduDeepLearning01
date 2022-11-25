@@ -2,7 +2,7 @@ import numpy as np
 
 def load_data():
     # 从文件导入数据
-    datafile = 'D:\BaiduSyncdisk\Evan\Evan\Evan\Work\BaiduDeepLearning01\data\p1\housing.data'
+    datafile = 'data/p1/housing.data'
     data = np.fromfile(datafile, sep=' ')
 
     # 每条数据包括14项，其中前面13项是影响因素，第14项是相应的房屋价格中位数
@@ -71,25 +71,21 @@ class Network(object):
 
         return gradient_w, gradient_b
 
-    def update(self, gradient_w5, gradient_w9, eta=0.01):
-        self.w[5] = self.w[5] - eta * gradient_w5
-        self.w[9] = self.w[9] - eta * gradient_w9
+    def update(self, gradient_w, gradient_b, eta=0.01):
+        self.w = self.w - eta * gradient_w
+        self.b = self.b - eta * gradient_b
 
     def train(self, x, y, iterations=100, eta=0.01):
-        points = []
         losses = []
         for i in range(iterations):
-            points.append([self.w[5][0], self.w[9][0]])
             z = self.forward(x)
             L = self.loss(z, y)
             gradient_w, gradient_b = self.gradient(x, y)
-            gradient_w5 = gradient_w[5][0]
-            gradient_w9 = gradient_w[9][0]
-            self.update(gradient_w5, gradient_w9, eta)
+            self.update(gradient_w, gradient_b, eta)
             losses.append(L)
-            if i % 50 == 0:
+            if i % 10 == 0:
                 print('iter {}, point {}, loss {}'.format(i, [self.w[5][0], self.w[9][0]], L))
-        return points, losses
+        return losses
 
 # net = Network(13)
 #

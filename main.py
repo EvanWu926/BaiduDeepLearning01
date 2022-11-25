@@ -97,7 +97,7 @@ y = train_data[:, -1:]
 net = Gradient.Network(13)
 num_iterations = 2000
 # 启动训练
-points, losses = net.train(x, y, iterations= num_iterations, eta= 0.01)
+losses = net.train(x, y, iterations= num_iterations, eta= 0.01)
 
 import matplotlib.pyplot as plt
 plot_x = Gradient.np.arange(num_iterations)
