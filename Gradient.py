@@ -60,6 +60,7 @@ class Network(object):
 
         return np.mean(cost)
 
+    # 梯度计算函数
     def gradient(self, x, y):
         z = self.forward(x)
         gradient_w = (z - y) * x
@@ -70,7 +71,25 @@ class Network(object):
 
         return gradient_w, gradient_b
 
+    def update(self, gradient_w5, gradient_w9, eta=0.01):
+        self.w[5] = self.w[5] - eta * gradient_w5
+        self.w[9] = self.w[9] - eta * gradient_w9
 
+    def train(self, x, y, iterations=100, eta=0.01):
+        points = []
+        losses = []
+        for i in range(iterations):
+            points.append([net.w[5][0], net.w[9][0]])
+            z = self.forward(x)
+            L = self.loss(z, y)
+            gradient_w, gradient_b = self.gradient(x, y)
+            gradient_w5 = gradient_w[5][0]
+            gradient_w9 = gradient_w[9][0]
+            self.update(gradient_w5, gradient_w9, eta)
+            losses.append(L)
+            if i % 50 == 0:
+                print('iter {}, point {}, loss {}'.format(i, [net.w[5][0], net.w[9][0]], L))
+        return points, losses
 
 # net = Network(13)
 #
