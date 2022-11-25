@@ -79,7 +79,7 @@ class Network(object):
         points = []
         losses = []
         for i in range(iterations):
-            points.append([net.w[5][0], net.w[9][0]])
+            points.append([self.w[5][0], self.w[9][0]])
             z = self.forward(x)
             L = self.loss(z, y)
             gradient_w, gradient_b = self.gradient(x, y)
@@ -88,7 +88,7 @@ class Network(object):
             self.update(gradient_w5, gradient_w9, eta)
             losses.append(L)
             if i % 50 == 0:
-                print('iter {}, point {}, loss {}'.format(i, [net.w[5][0], net.w[9][0]], L))
+                print('iter {}, point {}, loss {}'.format(i, [self.w[5][0], self.w[9][0]], L))
         return points, losses
 
 # net = Network(13)

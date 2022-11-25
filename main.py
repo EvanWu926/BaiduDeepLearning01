@@ -1,6 +1,5 @@
 # import Gradient
 
-
 # 获取数据
 # training_data, test_data = Gradient.load_data()
 # x = training_data[:, :-1]
@@ -86,6 +85,22 @@
 # print('point {}, loss {}'.format([net.w[5][0], net.w[9][0]], losses))
 # print('gradient {}'.format([gradient_w5, gradient_w9]))
 
+import Gradient
 
 
 
+# 获取数据
+train_data , test_data = Gradient.load_data()
+x = train_data[:, :-1]
+y = train_data[:, -1:]
+#创建神经网络
+net = Gradient.Network(13)
+num_iterations = 2000
+# 启动训练
+points, losses = net.train(x, y, iterations= num_iterations, eta= 0.01)
+
+import matplotlib.pyplot as plt
+plot_x = Gradient.np.arange(num_iterations)
+plot_y = Gradient.np.array(losses)
+plt.plot(plot_x, plot_y)
+plt.show()
