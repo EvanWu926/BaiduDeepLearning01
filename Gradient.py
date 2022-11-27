@@ -75,17 +75,43 @@ class Network(object):
         self.w = self.w - eta * gradient_w
         self.b = self.b - eta * gradient_b
 
-    def train(self, x, y, iterations=100, eta=0.01):
+    # def train(self, x, y, iterations=100, eta=0.01):
+    #     losses = []
+    #     for i in range(iterations):
+    #         z = self.forward(x)
+    #         L = self.loss(z, y)
+    #         gradient_w, gradient_b = self.gradient(x, y)
+    #         self.update(gradient_w, gradient_b, eta)
+    #         losses.append(L)
+    #         if i % 10 == 0:
+    #             print('iter {}, point {}, loss {}'.format(i, [self.w[5][0], self.w[9][0]], L))
+    #     return losses
+
+    def train(self, training_data, num_epochs, batch_size=10, eta = 0.01):
+        n = len(training_data)
         losses = []
-        for i in range(iterations):
-            z = self.forward(x)
-            L = self.loss(z, y)
-            gradient_w, gradient_b = self.gradient(x, y)
-            self.update(gradient_w, gradient_b, eta)
-            losses.append(L)
-            if i % 10 == 0:
-                print('iter {}, point {}, loss {}'.format(i, [self.w[5][0], self.w[9][0]], L))
+        for epoch_id in range(num_epochs):
+            # 在每轮迭代之前先打乱数据排序
+            # 然后再按每次取batch_size条数据的方式取出
+            np.random.shuffle(training_data)
+
+            # 将训练数据进行拆分，每个mini_batch包含batch_size条的数据
+            mini_batches = [training_data[k:k+batch_size] for k in range(0, n, batch_size)]
+            for iter_id, mini_batch  in enumerate(mini_batches):
+                x = mini_batch[:, :-1]
+                y = mini_batch[:, -1:]
+                z = self.forward(x)
+                loss = self.loss(z, y)
+
+                gw, gb =self.gradient(x, y)
+                self.update(gw, gb)
+                losses.append(loss)
+
+                print('Epoch {:3d} / iter {:3d}, loss = {:.4f}'.
+                                 format(epoch_id, iter_id, loss))
+
         return losses
+
 
 # net = Network(13)
 #

@@ -104,3 +104,5 @@ plot_x = Gradient.np.arange(num_iterations)
 plot_y = Gradient.np.array(losses)
 plt.plot(plot_x, plot_y)
 plt.show()
+
+
