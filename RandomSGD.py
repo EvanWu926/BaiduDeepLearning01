@@ -47,4 +47,3 @@ losses = net.train(train_data, num_epochs=50, batch_size=10, eta=0.01)
 # plt.show()
 np.save('w.npy', net.w)
 np.save('b.npy', net.b)
-# test push
